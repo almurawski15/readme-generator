@@ -3,7 +3,30 @@ const inquirer = require('inquirer');
 
 inquirer
   .prompt([
-    /* Pass your questions in here */
+    {
+        type: 'input',
+        name: 'title',
+        message: 'What is the title of your project?'
+    },
+
+    {
+        type: 'input',
+        name: 'description',
+        message: 'Please provide a description for your project'
+    },
+
+    {
+        type: 'input',
+        name: 'instructions',
+        message: 'Please provide your installation instructions for your project'
+    },
+
+
+
+
+
+
+
   ])
   .then(answers => {
     // Use user feedback for... whatever!!
