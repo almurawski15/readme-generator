@@ -1,6 +1,7 @@
 //Packages Installed
 const fs = require('fs');
 const inquirer = require('inquirer');
+const axios = require('axios');
 
 //Inquirer prompts for user input
 inquirer
@@ -44,7 +45,7 @@ inquirer
     {
         type: 'list',
         name: 'license',
-        choices: ['GNU AGPLv3', 'GNU GPLv3', 'GNU LGPLv3', 'Mozilla Public License 2.0', 'Apache License 2.0', 'MIT License', 'Boost Software License 1.0', 'The Unlicense'],
+        choices: ['GNU GPLv3', 'Apache License 2.0', 'MIT License'],
         message: 'Please choose a license for your application'
     },
 
@@ -61,13 +62,67 @@ inquirer
     },
 
   ])
-  .then(answers => {
-    // Use user feedback for... whatever!!
-  })
-  .catch(error => {
-    if(error.isTtyError) {
-      // Prompt couldn't be rendered in the current environment
-    } else {
-      // Something else went wrong
-    }
-  });
+
+// Function to write README file
+.then(function(data) {
+    axios
+    .get(`https://api.github.com/users/${data.username}`)
+    .then(function(res) {
+        console.log(data.license)
+        const getLicense = (license) => {
+            if (license === 'MIT License'){
+                return  `\r[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)`; 
+            } else if (license === 'GNU GPLv3') {
+                return `\r[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)`;
+            } else if (license === 'Apache License 2.0') {
+                return `\r[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)`; 
+            }
+        }
+        const readMe = `
+    
+# ${data.title}
+
+## Description
+
+${data.description}
+
+## Table of Contents
+
+- [Installation](#Installation)
+- [Usage](#Usage)
+- [License](#License)
+- [Contributors](#Contribution)
+- [Tests](#Tests)
+- [Questions](#Questions)
+
+## Installation
+
+${data.instructions}
+
+## Usage 
+
+${data.usage}
+
+## License
+
+This project has been licensed through ${data.license}.
+
+## Contribution
+
+${data.contribution}
+
+## Tests
+
+${data.test}
+
+## Questions
+
+If you have any questions, please reach out to me via email at ${data.email}.`
+    
+    fs.writeFile('README.md', readMe, (err) => {
+        if (err) {
+            throw err;
+        }
+    });
+    });
+});

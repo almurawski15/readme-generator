@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/almurawski15/readme-generator#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "inquirer": "^8.0.0"
   }
 }
