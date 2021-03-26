@@ -1,7 +1,8 @@
 //Packages Installed
 const fs = require('fs');
 const inquirer = require('inquirer');
-const axios = require('axios');
+
+let licenseImg; 
 
 //Inquirer prompts for user input
 inquirer
@@ -65,22 +66,17 @@ inquirer
 
 // Function to write README file
 .then(function(data) {
-    axios
-    .get(`https://api.github.com/users/${data.username}`)
-    .then(function(res) {
-        console.log(data.license)
-        const getLicense = (license) => {
-            if (license === 'MIT License'){
-                return  `\r[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)`; 
-            } else if (license === 'GNU GPLv3') {
-                return `\r[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)`;
-            } else if (license === 'Apache License 2.0') {
-                return `\r[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)`; 
+            if (data.license === 'MIT License'){
+                licenseImg = "https://img.shields.io/badge/License-MIT-yellow.svg"; 
+            } else if (data.license === 'GNU GPLv3') {
+                licenseImg = "https://img.shields.io/badge/License-GPLv3-blue.svg";
+            } else if (data.license === 'Apache License 2.0') {
+                licenseImg = "https://img.shields.io/badge/License-Apache%202.0-blue.svg"; 
             }
-        }
+        
         const readMe = `
     
-# ${data.title}
+# ${data.title} ![License](${licenseImg})
 
 ## Description
 
@@ -117,7 +113,7 @@ ${data.test}
 
 ## Questions
 
-If you have any questions, please reach out to me via email at ${data.email}.`
+You can find the following repository at https://github.com/${data.username}. If you have any questions, please reach out to me via email at ${data.email}.`
     
         fs.writeFile('README.md', readMe, (err) => {
             if (err) {
@@ -125,11 +121,4 @@ If you have any questions, please reach out to me via email at ${data.email}.`
             };
             console.log("Success! Your new README file has been created.");
         });
-    });
-});
-
-function init() {
-
-}
-
-init();
+})
