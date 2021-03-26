@@ -119,10 +119,17 @@ ${data.test}
 
 If you have any questions, please reach out to me via email at ${data.email}.`
     
-    fs.writeFile('README.md', readMe, (err) => {
-        if (err) {
-            throw err;
-        }
-    });
+        fs.writeFile('README.md', readMe, (err) => {
+            if (err) {
+                throw err;
+            };
+            console.log("Success! Your new README file has been created.");
+        });
     });
 });
+
+function init() {
+
+}
+
+init();
