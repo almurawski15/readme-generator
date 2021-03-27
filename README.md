@@ -33,7 +33,8 @@ Steps required to install project and how to get the development environment run
 
 To generate your own README, first run npm install in order to install the following npm package dependencies as specified in the package.json:
 
-inquirer that will prompt you for your inputs from the command line
+* [`inquirer`](https://www.npmjs.com/package/inquirer) that will prompt you for your inputs from the command line
+
 
 ## Usage 
 
